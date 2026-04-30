@@ -99,7 +99,8 @@ Compared average metrics across segments to interpret student types.
 
 Shows relationships between attendance, study habits, stress, and marks.
 
-![Correlation Heatmap](student_correlation_heatmap.png)
+![Correlation Heatmap](plots/student_correlation_heatmap.png)
+
 
 ---
 
@@ -107,7 +108,7 @@ Shows relationships between attendance, study habits, stress, and marks.
 
 Displays variance explained by each principal component.
 
-![PCA Scree Plot](pca_scree_plot.png)
+![PCA Scree Plot](plots/pca_scree_plot.png)
 
 ---
 
@@ -115,7 +116,7 @@ Displays variance explained by each principal component.
 
 Students mapped across major performance dimensions.
 
-![PCA Score Plot](pca_score_plot_students.png)
+![PCA Score Plot](plots/pca_score_plot_students.png)
 
 ---
 
@@ -123,7 +124,7 @@ Students mapped across major performance dimensions.
 
 Used to determine the optimal number of clusters.
 
-![Elbow Method](kmeans_elbow_method.png)
+![Elbow Method](plots/kmeans_elbow_method.png)
 
 ---
 
@@ -131,7 +132,7 @@ Used to determine the optimal number of clusters.
 
 Final clustering output showing four student groups.
 
-![Student Clusters](student_clusters_kmeans.png)
+![Student Clusters](plots/student_clusters_kmeans.png)
 
 ---
 
