@@ -21,6 +21,6 @@ Identify hidden drivers of academic success and segment students for targeted in
 - Highlighted at-risk and high-performing groups
 
 ## Files
-- student_success_analytics_final.R
-- Student_Success_Report.pdf
-- student_success_project.csv
+- student-analytics-r-final.R
+- Student-Success-Report.pdf
+- student-success-project.csv
