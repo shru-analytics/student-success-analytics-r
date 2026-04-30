@@ -5,17 +5,27 @@
 
 This project analyzes student performance data using Principal Component Analysis (PCA) and K-Means Clustering in R.
 
-The objective was to identify the key drivers of academic success and segment students into actionable groups for targeted institutional support.
+The objective was to identify the key drivers of academic success and segment students into meaningful groups for targeted institutional support.
 
-It demonstrates how analytics can be used to improve decision-making in education, consulting, HR, and people-focused strategy roles.
+It demonstrates an end-to-end analytics workflow combining data preparation, statistical analysis, visualization, and business recommendations.
+
+---
+
+## Project Snapshot
+
+- **Records Analyzed:** 500 Students  
+- **Variables Used:** 8  
+- **Principal Components Interpreted:** 2  
+- **Student Segments Identified:** 4  
+- **Methods Used:** PCA + K-Means Clustering  
 
 ---
 
 ## Business Problem
 
-Many institutions evaluate students primarily through marks.
+Many institutions evaluate students mainly through marks.
 
-This overlooks important indicators such as:
+This can overlook important indicators such as:
 
 - Attendance  
 - Study habits  
@@ -23,7 +33,7 @@ This overlooks important indicators such as:
 - Stress levels  
 - Sleep quality  
 
-A broader analytics framework can help identify students who need support earlier and improve academic outcomes.
+A broader analytics framework can help identify students who need support earlier and improve retention and academic outcomes.
 
 ---
 
@@ -40,7 +50,7 @@ Synthetic dataset of **500 student records** with **8 variables**:
 - Assignment_Marks  
 - Final_Marks  
 
-Synthetic data was used to demonstrate methodology while avoiding privacy risks.
+Synthetic data was used to demonstrate methodology while avoiding privacy concerns.
 
 ---
 
@@ -59,15 +69,15 @@ Synthetic data was used to demonstrate methodology while avoiding privacy risks.
 
 ### 1. Data Preparation
 
-- Generated realistic synthetic student data  
-- Applied logical value limits  
-- Built academic score relationships
+- Generated synthetic student records  
+- Applied realistic value ranges  
+- Created linked academic score variables  
 
 ### 2. Exploratory Analysis
 
 - Summary statistics  
-- Correlation heatmap  
-- Variable relationship review
+- Correlation analysis  
+- Variable relationship review  
 
 ### 3. Principal Component Analysis
 
@@ -80,6 +90,48 @@ Used PCA scores to segment students into 4 groups.
 ### 5. Cluster Profiling
 
 Compared average metrics across segments to interpret student types.
+
+---
+
+## Visual Outputs
+
+### Correlation Heatmap
+
+Shows relationships between attendance, study habits, stress, and marks.
+
+![Correlation Heatmap](student_correlation_heatmap.png)
+
+---
+
+### PCA Scree Plot
+
+Displays variance explained by each principal component.
+
+![PCA Scree Plot](pca_scree_plot.png)
+
+---
+
+### PCA Score Plot
+
+Students mapped across major performance dimensions.
+
+![PCA Score Plot](pca_score_plot_students.png)
+
+---
+
+### Elbow Method
+
+Used to determine the optimal number of clusters.
+
+![Elbow Method](kmeans_elbow_method.png)
+
+---
+
+### Student Segments (K-Means)
+
+Final clustering output showing four student groups.
+
+![Student Clusters](student_clusters_kmeans.png)
 
 ---
 
@@ -96,7 +148,7 @@ Compared average metrics across segments to interpret student types.
 ### Correlation Insights
 
 - Attendance and study hours were positively associated with marks.  
-- Higher stress was linked with weaker outcomes.  
+- Higher stress was linked with weaker academic outcomes.  
 - Lower sleep was associated with higher stress.
 
 ---
@@ -109,7 +161,7 @@ Compared average metrics across segments to interpret student types.
 - High marks  
 - Consistent study habits  
 
-**Action:** Advanced opportunities, mentoring roles.
+**Suggested Action:** Advanced opportunities, mentoring roles.
 
 ---
 
@@ -119,7 +171,7 @@ Compared average metrics across segments to interpret student types.
 - High stress  
 - Lower sleep levels  
 
-**Action:** Wellness support, workload coaching.
+**Suggested Action:** Wellness support, workload coaching.
 
 ---
 
@@ -128,7 +180,7 @@ Compared average metrics across segments to interpret student types.
 - Moderate performance  
 - Balanced habits  
 
-**Action:** Skill-building and progression planning.
+**Suggested Action:** Skill-building and progression planning.
 
 ---
 
@@ -138,7 +190,7 @@ Compared average metrics across segments to interpret student types.
 - Lower marks  
 - Weak engagement  
 
-**Action:** Early intervention, tutoring, mentoring.
+**Suggested Action:** Early intervention, tutoring, mentoring.
 
 ---
 
@@ -168,13 +220,17 @@ The same approach can be adapted for:
 
 ---
 
-## Files Included
+## Repository Structure
 
-- `student_success_analysis.R`
-- `student_success_project.csv`
-- `README.md`
-
----
+```text
+student_success_analysis.R
+student_success_project.csv
+student_correlation_heatmap.png
+pca_scree_plot.png
+pca_score_plot_students.png
+kmeans_elbow_method.png
+student_clusters_kmeans.png
+README.md
 
 ## Future Scope
 
@@ -188,7 +244,7 @@ The same approach can be adapted for:
 
 ## Outcome
 
-This project demonstrates an end-to-end analytics workflow covering:
+This project demonstrates practical capability in:
 
 - Data Preparation  
 - Statistical Analysis  
