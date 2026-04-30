@@ -24,132 +24,115 @@ student <- data.frame(
   Stress_Level  = round(rnorm(n, 5, 2), 1)
 )
 
-# Apply realistic limits
+# Apply limits
 student$Attendance    <- pmin(pmax(student$Attendance, 40), 100)
 student$Study_Hours   <- pmin(pmax(student$Study_Hours, 0.5), 10)
 student$Participation <- pmin(pmax(student$Participation, 20), 100)
 student$Sleep_Hours   <- pmin(pmax(student$Sleep_Hours, 4), 10)
 student$Stress_Level  <- pmin(pmax(student$Stress_Level, 1), 10)
 
-# Create academic scores
+# Academic Scores
 student$Internal_Marks <- round(
   0.35 * student$Attendance +
-    4.00 * student$Study_Hours +
-    0.20 * student$Participation -
-    1.50 * student$Stress_Level +
-    rnorm(n, 0, 5)
+  4.00 * student$Study_Hours +
+  0.20 * student$Participation -
+  1.50 * student$Stress_Level +
+  rnorm(n,0,5)
 )
 
 student$Assignment_Marks <- round(
   0.30 * student$Attendance +
-    3.50 * student$Study_Hours +
-    0.25 * student$Participation +
-    rnorm(n, 0, 5)
+  3.50 * student$Study_Hours +
+  0.25 * student$Participation +
+  rnorm(n,0,5)
 )
 
 student$Final_Marks <- round(
   0.40 * student$Internal_Marks +
-    0.35 * student$Assignment_Marks +
-    0.10 * student$Attendance +
-    2.00 * student$Sleep_Hours -
-    1.20 * student$Stress_Level +
-    rnorm(n, 0, 5)
+  0.35 * student$Assignment_Marks +
+  0.10 * student$Attendance +
+  2.00 * student$Sleep_Hours -
+  1.20 * student$Stress_Level +
+  rnorm(n,0,5)
 )
 
-# Restrict marks to 0-100
-student$Internal_Marks   <- pmin(pmax(student$Internal_Marks, 0), 100)
-student$Assignment_Marks <- pmin(pmax(student$Assignment_Marks, 0), 100)
-student$Final_Marks      <- pmin(pmax(student$Final_Marks, 0), 100)
+# Restrict marks
+student$Internal_Marks   <- pmin(pmax(student$Internal_Marks,0),100)
+student$Assignment_Marks <- pmin(pmax(student$Assignment_Marks,0),100)
+student$Final_Marks      <- pmin(pmax(student$Final_Marks,0),100)
 
 # -------------------------------
-# 3. Exploratory Data Analysis
+# 3. Correlation Heatmap
 # -------------------------------
-summary(student)
-
 corrplot(cor(student),
          method = "color",
          tl.cex = 0.8)
 
 # -------------------------------
-# 4. Principal Component Analysis
+# 4. PCA
 # -------------------------------
 pca_result <- prcomp(student, scale. = TRUE)
 
-summary(pca_result)
-
-# Scree Plot
-plot(pca_result, type = "l", main = "Scree Plot")
-
-# PCA Biplot
-biplot(pca_result, scale = 0)
-
-biplot(prcomp(student[1:100,], scale=TRUE), scale=0)
-
-plot(pca_result$x[,1], pca_result$x[,2],
-     pch=19,
-     col="grey60",
-     xlab="PC1",
-     ylab="PC2",
-     main="PCA Score Plot")
-
-arrows(0,0,
-       pca_result$rotation[,1]*5,
-       pca_result$rotation[,2]*5,
-       col="red",
-       length=0.1)
-
-text(pca_result$rotation[,1]*5,
-     pca_result$rotation[,2]*5,
-     labels=rownames(pca_result$rotation),
-     col="red",
-     pos=3)
+# PCA Scores
+pca_scores <- as.data.frame(pca_result$x[,1:3])
 
 # -------------------------------
-# 5. K-Means Clustering
+# 5. Elbow Method (ggplot2)
 # -------------------------------
-
-# Use first 3 principal components
-pca_scores <- as.data.frame(pca_result$x[, 1:3])
-
-# Elbow Method
 wss <- numeric(10)
 
 for(i in 1:10){
   wss[i] <- kmeans(pca_scores, centers = i, nstart = 25)$tot.withinss
 }
 
-plot(1:10, wss,
-     type = "b",
-     pch = 19,
-     xlab = "Number of Clusters",
-     ylab = "Within Sum of Squares",
-     main = "Elbow Method")
+elbow_df <- data.frame(
+  Clusters = 1:10,
+  WSS = wss
+)
 
-# Final K-Means Model
+ggplot(elbow_df, aes(x = Clusters, y = WSS)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Elbow Method for Optimal Clusters",
+    x = "Number of Clusters",
+    y = "Within Sum of Squares"
+  ) +
+  theme_minimal()
+
+# -------------------------------
+# 6. K-Means Clustering
+# -------------------------------
 set.seed(123)
 km <- kmeans(pca_scores, centers = 4, nstart = 25)
 
 student$Cluster <- as.factor(km$cluster)
-
-# Cluster Plot
-plot(pca_scores$PC1, pca_scores$PC2,
-     col = student$Cluster,
-     pch = 19,
-     xlab = "PC1",
-     ylab = "PC2",
-     main = "Student Clusters")
+pca_scores$Cluster <- student$Cluster
 
 # -------------------------------
-# 6. Cluster Profiles
+# 7. Cluster Plot (ggplot2)
+# -------------------------------
+ggplot(pca_scores,
+       aes(x = PC1, y = PC2, color = Cluster)) +
+  geom_point(size = 2.5, alpha = 0.75) +
+  labs(
+    title = "Student Segments using PCA + K-Means",
+    x = "Principal Component 1",
+    y = "Principal Component 2"
+  ) +
+  theme_minimal()
+
+# -------------------------------
+# 8. Cluster Profiles
 # -------------------------------
 cluster_summary <- student %>%
   group_by(Cluster) %>%
-  summarise_all(mean)
+  summarise(across(where(is.numeric), mean))
 
 print(cluster_summary)
 
 # -------------------------------
-# 7. Export Final Dataset
+# 9. Export Dataset
 # -------------------------------
 write.csv(student,
           "student_success_project.csv",
